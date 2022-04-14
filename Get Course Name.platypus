@@ -27,7 +27,7 @@
 	<key>ExecutablePath</key>
 	<string>/usr/local/share/platypus/ScriptExec</string>
 	<key>IconPath</key>
-	<string>/private/var/folders/b0/67fplmbs6h38d0yjvvwkt898z4pk2_/T/AppTranslocation/FC7BA8E7-B8EC-4F05-BF00-8B104D873033/d/Platypus.app/Contents/Resources/PlatypusDefault.icns</string>
+	<string>/Applications/Platypus.app/Contents/Resources/PlatypusDefault.icns</string>
 	<key>Identifier</key>
 	<string>org.aciuffo.GetCourseName</string>
 	<key>InterfaceType</key>

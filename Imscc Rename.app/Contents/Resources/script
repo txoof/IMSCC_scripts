@@ -17,7 +17,7 @@ abort() {
 
 [ ! -d "$OUTPUT_PATH" ] && abort "Shared drive cannot be found. Aborting."
 
-[ -z $1 ] && abort "Provide a directory full of IMSCC files by dropping in this window or using: $0 /path/to/files"
+[ -z $1 ] && abort "Provide a folder full of IMSCC files by dropping in this window or using: $0 /path/to/files"
 
 [ ! -d $1 ] && abort "$1 does not appear to be a directory"
 
