@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 TEMPDIR=$(mktemp -d)
 INPUT_FILE=$1
-OUTPUT_PATH=~/Desktop
+OUTPUT_PATH=./temp_path/foo
 MANIFEST_FILE="imsmanifest.xml"
 
 slugify () {
@@ -44,6 +44,7 @@ then
     fi
 fi
 
-find $TEMPDIR -type f -not -name "*.xml" -not -name "*.html" -exec mv {} $OUTPUT_PATH \;
+# find $TEMPDIR -type f -not -name "*.xml" -not -name "*.html" -exec mv {} $OUTPUT_PATH \;
+find $TEMPDIR -type f -not -name "*.xml" -not -name "*.html" | while read FILE ; do newfile="$(echo ${FILE} | sed  -E -e 's#(.*RES-[0-9a-zA-z]+/)([0-9a-zA-Z]+)(-)(.*)(\.[a-zA-Z0-9]{2,}$)#\4-\2\5#')" ; mv "${FILE}"  "${OUTPUT_PATH}/${newfile}" ; done
 
 echo "All regular files from $INPUT_FILE were extracted and placed in $OUTPUT_PATH. NOTE: no .html or .xml files were included."
