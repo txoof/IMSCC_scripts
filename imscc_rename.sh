@@ -1,9 +1,12 @@
 #!/usr/bin/env bash
 
 SOURCE=$1
-OUTPUT_PATH="/Volumes/GoogleDrive/Shared drives/PS12 IT Vertical Shared Drive/Team & Department Operations/PS12 IT Department Projects/2021 VLE Migration/PSL Migration to D2L/IMSCC Files"
+# OUTPUT_PATH="/Volumes/GoogleDrive/Shared drives/PS12 IT Vertical Shared Drive/Team & Department Operations/PS12 IT Department Projects/2021 VLE Migration/PSL Migration to D2L/IMSCC Files"
+DATE=$(date "+%Y%m%d.%H%M")
+OUTPUT_PATH="$(dirname $SOURCE)"/imscc_renamed-$DATE/
 TARGET_FILE="imsmanifest.xml"
-DATE=$(date "+%Y%m%d")
+
+echo $OUTPUT_PATH
 
 slugify () {
     echo "$1" | iconv -c -t ascii//TRANSLIT | sed -E 's/[~^]+//g' | sed -E 's/[^a-zA-Z0-9]+/_/g' | sed -E 's/^-+|-+$//g' | tr A-Z a-z
@@ -15,7 +18,9 @@ abort() {
     exit
 }
 
-[ ! -d "$OUTPUT_PATH" ] && abort "Shared drive cannot be found. Aborting."
+mkdir "$OUTPUT_PATH" || abort "Output path '$OUTPUT_PATH' could not be created. Aborting."
+
+[ ! -d "$OUTPUT_PATH" ] && abort "Output path cannot be found. Aborting."
 
 [ -z $1 ] && abort "Provide a folder full of IMSCC files by dropping in this window or using: $0 /path/to/files"
 
@@ -45,12 +50,14 @@ for ((i=0; i<${#arr[@]}; i++)); do
         NODES+=( "$line" )
     done < <( xpath -q -e "//lomm:string/text()" /tmp/$TARGET_FILE )
 
+    # teacher name
     T_NAME=$(slugify "${NODES[1]}")
+
+    # course name
     C_NAME=$(slugify "${NODES[0]}")
 
     T_PATH=$OUTPUT_PATH/$T_NAME
-    F_NAME="$T_NAME"."$C_NAME".$DATE.imscc
-
+    F_NAME="$T_NAME"."$C_NAME".imscc
 
     if [ ! -d "$T_PATH" ] 
     then
@@ -71,7 +78,6 @@ for ((i=0; i<${#arr[@]}; i++)); do
         echo "skipping"
         continue
     fi
-
 
 done
 
